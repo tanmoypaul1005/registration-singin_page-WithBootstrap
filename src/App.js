@@ -123,6 +123,31 @@ user.updateProfile({
  console.log(error)
 });  
 }
+
+
+const verifyEmail=()=>{
+  firebase.auth().currentUser.sendEmailVerification()
+  .then(() => {
+    // Email verification sent!
+    // ...
+  });
+}
+
+
+
+const resetpassword=email=>{
+  firebase.auth().sendPasswordResetEmail(email)
+  .then(() => {
+    // Password reset email sent!
+    // ..
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+   console.log(errorMessage,errorCode)
+  });
+}
+
 return (
 <div className="App Box">
  <img className="logo" src={logo} alt="Logo" />
@@ -148,6 +173,8 @@ return (
   <Button variant="primary" type="submit">{newUser?'Sing UP':'Sing In'}</Button> 
 <br/>
 </Form>
+
+<br/><button onClick={()=>resetpassword(user.email)}>Forget password</button>
 <p style={{color:'red'}}>{user.error}</p>
 {user.success && <p style={{color:'green'}}> User{newUser?'Created' :'Logged In'} success</p>}
 
